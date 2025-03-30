@@ -1,32 +1,37 @@
-name: Process Sketch Effect Video
+name: Process Sketch Effect
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   process_video:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use GitHub-hosted runner
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
-      - name: Set Up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.8'
+    - name: Set Up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
 
-      - name: Install Dependencies
-        run: pip install opencv-python numpy
+    - name: Install Dependencies
+      run: |
+        pip install --upgrade pip
+        pip install moviepy opencv-python numpy
 
-      - name: Run Sketch Effect Script
-        run: python sketch_effect.py
+    - name: Run Sketch Effect Script
+      run: python sketch_effect.py input_video.mp4 output_sketch_video.mp4
 
-      - name: Upload Processed Video
-        uses: actions/upload-artifact@v3
-        with:
-          name: output-sketch-video
-          path: output_sketch_video.mp4
+    - name: Debug File Existence
+      run: ls -lah  # Check if output file is created
+
+    - name: Upload Processed Video
+      uses: actions/upload-artifact@v4
+      with:
+        name: processed_video
+        path: output_sketch_video.mp4
