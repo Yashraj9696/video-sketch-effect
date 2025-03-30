@@ -1,0 +1,32 @@
+name: Process Sketch Effect Video
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  process_video:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Install Dependencies
+        run: pip install opencv-python numpy
+
+      - name: Run Sketch Effect Script
+        run: python sketch_effect.py
+
+      - name: Upload Processed Video
+        uses: actions/upload-artifact@v3
+        with:
+          name: output-sketch-video
+          path: output_sketch_video.mp4
