@@ -26,7 +26,7 @@ jobs:
         run: python sketch_effect.py
 
       - name: Upload Processed Video
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: output-sketch-video
           path: output_sketch_video.mp4
